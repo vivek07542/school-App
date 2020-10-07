@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Form</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/application.css">
+</head>
+
+<body>
+  <div class="container px-5">
+    <h1>School Admission Form</h1>
+    <h4>Student Detail</h4>
+    <div class="form-group">
+      <form class="needs-validation">
+        <div class="form-row">
+          <div class="col-md-4 mb-3 " id="divFirstName">
+            <label>First Name</label>
+            <input type="text" class="form-control mb-2" id="userFirstName" placeholder="First Name">
+            <div class="invalid-feedback invalidDisplay">
+              Please Fill First Name
+            </div>
+          </div>
+          <div class="col-md-4 mb-3" id="divLastName">
+            <label>Last Name</label>
+            <input type="text" class="form-control mb-2" id="userLastName" placeholder="Last Name">
+            <div class="invalid-feedback invalidDisplay">
+              Please Fill Last Name
+            </div>
+          </div>
+        </div>
+        <div class="form-row" id="divGender">
+          <div class="col-3 col-md-2 mb-3" id="divMaleGender">
+            <div class="form-check form-check-inline">
+              <input class="form-check form-check-inline form-check-input" type="radio" name="inlineRadioOptions"
+                id="rdbMaleGender" value="Male">
+              <label class="form-check-label">Male</label>
+            </div>
+          </div>
+          <div class="col-3 col-md-2 mb-3" id="divFemaleGender">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="rdbFemaleGender"
+                value="Female">
+              <label class="form-check-label">Female</label>
+            </div>
+          </div>
+          <div class="invalid-feedback invalidDisplay">
+            Please Select Gender
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3" id="divAddress">
+            <label>Address</label>
+            <textarea type="text" class="form-control mb-2" id="txtUserAddress" placeholder="Address"></textarea>
+            <div class="invalid-feedback invalidDisplay">
+              Please Fill Address
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Country</label>
+            <select class="custom-select form-control" id="countySel" placeholder="Country">
+              <option value="" selected="selected">Country</option>
+            </select>
+            <div class="invalid-feedback invalidDisplay">
+              Please select a valid Country.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="validationCustom04">State</label>
+            <select class="custom-select form-control" id="stateSel" placeholder="State">
+              <option value="" selected="selected">State</option>
+            </select>
+            <div class="invalid-feedback invalidDisplay">
+              Please select a valid State.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="validationCustom03">City</label>
+            <select class="custom-select form-control" id="citySel" placeholder="City">
+              <option value="" selected="selected">City</option>
+            </select>
+            <div class="invalid-feedback invalidDisplay">
+              Please select a valid City.
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-4 mb-3" id="divMobileNumber">
+            <label>Mobile Number</label>
+            <input type="number" class="form-control" id="txtUserMobileNo" placeholder="Mobile Number">
+            <div class="invalid-feedback invalidDisplay">
+              Please enter Valid Number
+            </div>
+          </div>
+          <div class="col-md-5 mb-3">
+            <label for="validationCustom10">Email Address</label>
+            <input type="text" class="form-control" id="txtUserEmail" placeholder="Email id">
+            <div class="invalid-feedback invalidDisplay">
+              Please enter Valid Email id
+            </div>
+          </div>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" value="" id="chkFormData">
+          <label>
+            Agree to terms and conditions
+          </label>
+          <div class="invalid-feedback invalidDisplay">
+            You must agree before submitting.
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <button class="btn btn-primary my-3" id="btnSubmit" type="submit">Save form</button>
+    <div class="container-fluid my-3">
+      <h4>Summary Of Student Detail</h4>
+      <!-- Dynamically Created Table Inside it. -->
+      <table id="tblData">
+        <thead>
+          <td>Unique Id</td>
+          <td>Student Name</td>
+          <td>Gender</td>
+          <td>Address</td>
+          <td>Country</td>
+          <td>State</td>
+          <td>City</td>
+          <td>Mobile Number</td>
+          <td>Email-Id</td>
+          <td>Edit Detail</td>
+          <td>Delete Detail</td>
+          <td>Mark Assign</td>
+        </thead>
+        <!-- Dynamically Created Row & Column Using JS -->
+      </table>
+    </div>
+    <!-- Mark Display -->
+    <div class=" studentMarkDetail" id="studentMarkDetail">
+      <h3>Student Marks Detail</h3>
+    </div>
+  </div>
+  <!-- popUp Container -->
+  <div class="markContainer " id="markContainer">
+    <div class="markContent" id="markContent">
+      <div class="close" id="closeDynamic">+</div>
+      <p id="displayUserName"></p>
+      <input type="text" placeholder="Semester" class="displayUserSemester" id="displayUserSemester"></input>
+      <div id="displayMainDiv"> 
+      </div>
+      <button class="btn btn-primary submitButton" id="submitButton">Submit</button>
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="js/application.js"></script>
+</body>
+</html>
