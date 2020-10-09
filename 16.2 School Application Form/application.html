@@ -13,6 +13,7 @@
 
 <body>
   <div class="container px-5">
+    <!-- <button class="btn btn-primary my-3" onclick="savebtntest()" type="submit">Save test</button> -->
     <h1>School Admission Form</h1>
     <h4>Student Detail</h4>
     <div class="form-group">
@@ -95,7 +96,10 @@
             <label>Mobile Number</label>
             <input type="number" class="form-control" id="txtUserMobileNo" placeholder="Mobile Number">
             <div class="invalid-feedback invalidDisplay">
-              Please enter Valid Number
+              Please enter Valid Number...Number is too Short
+            </div>
+            <div class="invalid-feedback invalidDisplay1">
+              Please enter Valid Number...Number is too Long
             </div>
           </div>
           <div class="col-md-5 mb-3">
@@ -123,8 +127,8 @@
       <h4>Summary Of Student Detail</h4>
       <!-- Dynamically Created Table Inside it. -->
       <table id="tblData">
-        <thead>
-          <td>Unique Id</td>
+        <thead class="tblTr">
+          <!-- <td>Unique Id</td> -->
           <td>Student Name</td>
           <td>Gender</td>
           <td>Address</td>
@@ -133,16 +137,17 @@
           <td>City</td>
           <td>Mobile Number</td>
           <td>Email-Id</td>
-          <td>Edit Detail</td>
-          <td>Delete Detail</td>
-          <td>Mark Assign</td>
+          <td>Action</td>
+          <!-- <td>Edit</td>
+          <td>Delete</td>
+          <td>Mark</td> -->
         </thead>
         <!-- Dynamically Created Row & Column Using JS -->
       </table>
     </div>
     <!-- Mark Display -->
-    <div class=" studentMarkDetail" id="studentMarkDetail">
-      <h3>Student Marks Detail</h3>
+    <div class="studentMarkDetail" id="studentMarkDetail">
+      <h4>Student Marks Detail</h4>
     </div>
   </div>
   <!-- popUp Container -->
