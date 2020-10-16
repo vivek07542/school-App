@@ -100,9 +100,5 @@ table{
 .close{
   transform: rotate(45deg);
 }
-/* .counter p::before{
-  counter-increment:section;
-  content: "enrol@"
-  counter(section);
-} */
+
 
