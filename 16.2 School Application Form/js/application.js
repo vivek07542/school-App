@@ -20,7 +20,6 @@ var displaySubjectMarks = document.getElementById("displaySubjectMarks");
 var displayUserSemester = document.getElementById("displayUserSemester");
 var studentMarkDetail = document.getElementById("studentMarkDetail");
 var closeDynamic = document.getElementById("closeDynamic");
-
 // Select Function
 var countryStateInfo = {
   "USA": {
@@ -437,7 +436,7 @@ closeDynamic.addEventListener("click", function () {
   selectedDelete.children[8].children[2].disabled = false;
   markContainer.style.display = "none";
   let parentDiv = submitButton.parentNode;
-  resetSubmit(markContainer, parentDiv);
+  resetSubmit(parentDiv);
 });
 // MarkAdd Disable Function 
 function disableMarkAdd(closeDynamic) {
@@ -452,64 +451,37 @@ function disableMarkAdd(closeDynamic) {
 }
 // Add mark Pop up Div formation on click with Add Mark 
 function dynamicDivFormation(editedEvent, parentPlacingDiv) {
-  if (editedEvent === true) {     
+  if (editedEvent === true) {
     displayUserName.innerHTML = parentPlacingDiv.children[0].innerText;
     displayUserSemester.value = parentPlacingDiv.children[1].innerText;
+    displayUserSemester.style.border = "1px solid black";
     let selectedDiv = parentPlacingDiv.children[2].children;
     for (i = 0; i < selectedDiv.length; i++) {
-      let dynamicallyCreatedDiv = document.createElement("div");
-      dynamicallyCreatedDiv.classList.add("displayDynamic");
-      let dynamicallyCreatedSelect = document.createElement("select");
-      dynamicallyCreatedSelect.classList.add("displaySubject");
-      fillSubjects(dynamicallyCreatedSelect, selectedDiv[i].children[0].innerText);
-      let dynamicallyCreatedInput = document.createElement("input");
-      dynamicallyCreatedInput.classList.add("displaySubjectMarks");
-      dynamicallyCreatedInput.setAttribute("placeholder", "Marks");
-      dynamicallyCreatedInput.type = "number";
-      dynamicallyCreatedInput.value = selectedDiv[i].children[1].innerText;
-      let dynamicallyCreatedAddOn = document.createElement("button");
-      dynamicallyCreatedAddOn.classList.add("btn", "btn-sm", "btn-primary");
-      dynamicallyCreatedAddOn.innerHTML = "+";
-      dynamicallyCreatedAddOn.addEventListener("click", function () {
-        let parentDiv = dynamicallyCreatedAddOn.parentNode;
-        let parentMainDiv = parentDiv.parentNode;
-        if (parentMainDiv.children.length === 9) {
-          dynamicallyCreatedAddOn.disabled = true;
-        }
-        else {
-          dynamicDivFormation();
-          dynamicallyCreatedAddOn.disabled = false;
-        }
-      });
-      let dynamicallyCreatedRowDelete = document.createElement("button");
-      dynamicallyCreatedRowDelete.classList.add("btn", "btn-sm", "btn-primary");
-      dynamicallyCreatedRowDelete.innerHTML = "-";
-      dynamicallyCreatedRowDelete.addEventListener("click", function () {
-        let parentDiv = dynamicallyCreatedRowDelete.parentNode;
-        parentDiv.parentNode.removeChild(parentDiv);
-      });
-      dynamicallyCreatedDiv.appendChild(dynamicallyCreatedSelect);
-      dynamicallyCreatedDiv.appendChild(dynamicallyCreatedInput);
-      dynamicallyCreatedDiv.appendChild(dynamicallyCreatedAddOn);
-      dynamicallyCreatedDiv.appendChild(dynamicallyCreatedRowDelete);
-      displayMainDiv.appendChild(dynamicallyCreatedDiv);
+      createEditPopUp(editedEvent, selectedDiv)
     }
   }
   else {
-    addMarkClick();
-}
-function addMarkClick(){
-  let dynamicallyCreatedDiv = document.createElement("div");
+    createEditPopUp();
+  }
+
+  function createEditPopUp(editedEvent, selectedDiv) {
+    let dynamicallyCreatedDiv = document.createElement("div");
     dynamicallyCreatedDiv.classList.add("displayDynamic");
     let dynamicallyCreatedSelect = document.createElement("select");
     dynamicallyCreatedSelect.classList.add("displaySubject");
-    fillSubjects(dynamicallyCreatedSelect, "");
     let dynamicallyCreatedInput = document.createElement("input");
     dynamicallyCreatedInput.classList.add("displaySubjectMarks");
     dynamicallyCreatedInput.setAttribute("placeholder", "Marks");
     dynamicallyCreatedInput.type = "number";
+    if (editedEvent === true) {
+      fillSubjects(dynamicallyCreatedSelect, selectedDiv[i].children[0].innerText);
+      dynamicallyCreatedInput.value = selectedDiv[i].children[1].innerText;
+    }
+    else {
+      fillSubjects(dynamicallyCreatedSelect, "");
+    }
     let dynamicallyCreatedAddOn = document.createElement("button");
-    dynamicallyCreatedAddOn.classList.add("btn", "btn-sm", "btn-primary", "add");
+    dynamicallyCreatedAddOn.classList.add("btn", "btn-sm", "btn-primary");
     dynamicallyCreatedAddOn.innerHTML = "+";
     dynamicallyCreatedAddOn.addEventListener("click", function () {
       let parentDiv = dynamicallyCreatedAddOn.parentNode;
@@ -523,7 +495,7 @@ function addMarkClick(){
       }
     });
     let dynamicallyCreatedRowDelete = document.createElement("button");
-    dynamicallyCreatedRowDelete.classList.add("btn", "btn-sm", "btn-primary","rowDelte");
+    dynamicallyCreatedRowDelete.classList.add("btn", "btn-sm", "btn-primary");
     dynamicallyCreatedRowDelete.innerHTML = "-";
     dynamicallyCreatedRowDelete.addEventListener("click", function () {
       let parentDiv = dynamicallyCreatedRowDelete.parentNode;
@@ -534,157 +506,157 @@ function addMarkClick(){
     dynamicallyCreatedDiv.appendChild(dynamicallyCreatedAddOn);
     dynamicallyCreatedDiv.appendChild(dynamicallyCreatedRowDelete);
     displayMainDiv.appendChild(dynamicallyCreatedDiv);
-}
-// Submit Button Click Event function and conditions 
-submitButton.addEventListener("click", function () {
-  let isCreatedDiv = true;
-  let selectedTrDiv;
-  for (let i = 0; i < studentMarkDetail.children.length; i++) {
-    if (studentMarkDetail.children[i].style.backgroundColor === "pink") {
-      selectedTrDiv = studentMarkDetail.children[i];
-      isCreatedDiv = false;
-      break;
-    }
   }
-  if (validateDiv()) {
-    if (isCreatedDiv) {
-      dynamicMark();
-      isDivFormation = true;
-    }
-    else {
-      let selDiv = selectedTrDiv.children;
-      let divSubjectMarkContainer = document.createElement("div");
-      let studentMarkObject = {};
-      studentMarkObject = editValue();
-      selDiv[0].textContent = studentMarkObject.studentName;/*Now giving values from Object to the Edit Button Values*/
-      selDiv[1].innerHTML = studentMarkObject.studentSemester;
-      selectedTrDiv.removeChild(selDiv[2]);
-      // let selectedDiv = parentDiv.children[3].children;
-      loopSelected(studentMarkObject.subjectMarks, divSubjectMarkContainer); {
-        selectedTrDiv.insertBefore(divSubjectMarkContainer, selectedTrDiv.lastChild);
+  // Submit Button Click Event function and conditions 
+  submitButton.addEventListener("click", function () {
+    let isCreatedDiv = true;
+    let selectedTrDiv;
+    for (let i = 0; i < studentMarkDetail.children.length; i++) {
+      if (studentMarkDetail.children[i].style.backgroundColor === "pink") {
+        selectedTrDiv = studentMarkDetail.children[i];
+        isCreatedDiv = false;
+        break;
       }
-      selectedTrDiv.style.backgroundColor = "rgb(190,177,250)";
     }
-    disableMarkAdd(closeDynamic);
-    document.getElementsByClassName("markButton").disabled = true;
-    let parentDiv = submitButton.parentNode;
-    resetSubmit(markContainer, parentDiv);
-  }
-});
-// Select Function for Dynamic Create 
-function fillSubjects(dynamicallyCreatedSelect, selectValue) {
-  let subjectArray = ["Select Subject", "English", "Hindi", "French", "Mathametics", "Physics", "Chemistry", "Moral Value", "Social Science", "General Awarness"];
-  for (let i = 0; i < subjectArray.length; i++) {
-    var optn = subjectArray[i];
-    var el = document.createElement("option");
-    el.textContent = optn;
-    if (optn === "Select Subject") {
-      el.setAttribute("selected", "selected");
-      el.disabled = true;
-      el.value = "";
-    }
-    else if (optn === selectValue) {
-      el.setAttribute("selected", "selected");
-      // el.disabled = true;
-      el.value = selectValue;
-    }
-    else {
-      el.value = optn;
-    }
-    dynamicallyCreatedSelect.appendChild(el);
-  }
-}
-// Reset Finction For Submit Button
-function resetSubmit(markContainer, parentDiv) {
-  parentDiv.children[1].innerHTML = "";
-  parentDiv.children[2].value = "";
-  parentDiv.children[2].style.border = "1px solid black";
-  markContainer.style.display = "none";
-  let list = parentDiv.children[3];
-  while (list.hasChildNodes()) {
-    list.removeChild(list.firstChild);
-  }
-}
-// Validation Function For popUp 
-function validateDiv() {
-  let isValidateDiv = true;
-  if (displayUserSemester.value === "") {
-    displayUserSemester.style.border = "2px solid red";
-    isValidateDiv = false;
-  }
-  else {
-    displayUserSemester.style.border = "2px solid green";
-  }
-  let selectedDiv = displayMainDiv.children;
-  for (i = 0; i < selectedDiv.length; i++) {
-    for (j = 0; j < selectedDiv[i].children.length - 2; j++) {
-      if (selectedDiv[i].children[j].value === "") {
-        selectedDiv[i].children[j].style.border = "2px solid red";
-        isValidateDiv = false;
+    if (validateDiv()) {
+      if (isCreatedDiv) {
+        dynamicMark();
+        isDivFormation = true;
       }
       else {
-        selectedDiv[i].children[j].style.border = "2px solid green";
+        let selDiv = selectedTrDiv.children;
+        let divSubjectMarkContainer = document.createElement("div");
+        let studentMarkObject = {};
+        studentMarkObject = editValue();
+        selDiv[0].textContent = studentMarkObject.studentName;/*Now giving values from Object to the Edit Button Values*/
+        selDiv[1].innerHTML = studentMarkObject.studentSemester;
+        selectedTrDiv.removeChild(selDiv[2]);
+        // let selectedDiv = parentDiv.children[3].children;
+        loopSelected(studentMarkObject.subjectMarks, divSubjectMarkContainer); {
+          selectedTrDiv.insertBefore(divSubjectMarkContainer, selectedTrDiv.lastChild);
+        }
+        selectedTrDiv.style.backgroundColor = "rgb(190,177,250)";
       }
+      disableMarkAdd(closeDynamic);
+      document.getElementsByClassName("markButton").disabled = true;
+      let parentDiv = submitButton.parentNode;
+      resetSubmit(parentDiv);
+    }
+  });
+  // Select Function for Dynamic Create 
+  function fillSubjects(dynamicallyCreatedSelect, selectValue) {
+    let subjectArray = ["Select Subject", "English", "Hindi", "French", "Mathametics", "Physics", "Chemistry", "Moral Value", "Social Science", "General Awarness"];
+    for (let i = 0; i < subjectArray.length; i++) {
+      var optn = subjectArray[i];
+      var el = document.createElement("option");
+      el.textContent = optn;
+      if (optn === "Select Subject") {
+        el.setAttribute("selected", "selected");
+        el.disabled = true;
+        el.value = "";
+      }
+      else if (optn === selectValue) {
+        el.setAttribute("selected", "selected");
+        // el.disabled = true;
+        el.value = selectValue;
+      }
+      else {
+        el.value = optn;
+      }
+      dynamicallyCreatedSelect.appendChild(el);
     }
   }
-  return isValidateDiv;
-}
-// Student Dynamic Created Detail by clicking Submit button on popUp 
-function dynamicMark() {
-  let divMarkDetail = document.createElement("div");
-  let paraMarkDetail = document.createElement("p");
-  let paraSemesterMarkDetail = document.createElement("p");
-  let divSubjectMarkContainer = document.createElement("div");
-  let EditButton = document.createElement("button");
-  EditButton.innerText = "Edit";
-  EditButton.classList.add("btn", "btn-sm", "btn-primary", "my-2");
-  EditButton.addEventListener("click", function () {
-    markContainer.style.display = "flex";
-    let parentPlacingDiv = EditButton.parentNode;
-    parentPlacingDiv.style.backgroundColor = "pink";
-    dynamicDivFormation(true, parentPlacingDiv);
-    let parentElement = displayMainDiv.children[0].children[3];
-    parentElement.disabled = true;
-  });
-  let studentMarkObject = {};
-  studentMarkObject = editValue();
-  paraMarkDetail.innerHTML = studentMarkObject.studentName;/*Now giving values from Object to the Edit Button Values*/
-  paraSemesterMarkDetail.innerHTML = studentMarkObject.studentSemester;/*Now giving values from Object to the Edit Button Values*/
-  loopSelected(studentMarkObject.subjectMarks, divSubjectMarkContainer);
-  divMarkDetail.appendChild(paraMarkDetail);
-  divMarkDetail.appendChild(paraSemesterMarkDetail);
-  divMarkDetail.appendChild(divSubjectMarkContainer);
-  divMarkDetail.appendChild(EditButton);
-  studentMarkDetail.appendChild(divMarkDetail);
-}
-// Function for Pop After Edit Button Click of Student Mark// 
-function loopSelected(marks, divSubjectMarkContainer) {
-  marks.forEach(function (objMark, index) {
-    let subjectMarkDiv = document.createElement("div");
-    let subjectMarkDetail = document.createElement("span");
-    let paraSubjectMarkDetail = document.createElement("span");
-    subjectMarkDetail.innerText = objMark.subject;
-    paraSubjectMarkDetail.innerText = objMark.mark;
-    subjectMarkDiv.appendChild(subjectMarkDetail);
-    subjectMarkDiv.appendChild(paraSubjectMarkDetail);
-    divSubjectMarkContainer.appendChild(subjectMarkDiv);
-  });
-}
-function editValue() {
-  let studentMarkObject = {}; /*We Created An Object*/
-  studentMarkObject.studentName = displayUserName.innerText;/*First We append Student Name Value*/
-  studentMarkObject.studentSemester = displayUserSemester.value;/*second We append Student Semester Value*/
-  studentMarkObject.subjectMarks = [];/*Third We append an Array values of Student Subject & Marks */
-  let studentMarkSummary = document.getElementById("displayMainDiv").querySelectorAll(".displayDynamic");/*Extracting all Div Which having values of Subject & Mark*/
-  let markArray = Array.from(studentMarkSummary);/*Converting the elements to Form Array*/
-  markArray.forEach(function (mark, index) {/*Looping to Each value of Array then*/
-    let selectValue = mark.querySelector(".displaySubject").value;/*Giving Value of Subject from input tag*/
-    let markInputValue = mark.querySelector(".displaySubjectMarks").value;/*Giving Value of Mark from input tag*/
-    let studentMark = {};/*Again creating an Object again with inner values */
-    studentMark.subject = selectValue;/*Giving Value of Subject and append in student object*/
-    studentMark.mark = markInputValue;/*Giving Value of Mark and append in student object*/
-    studentMarkObject.subjectMarks.push(studentMark);/*Pushing this object to array*/
-  });
-  return studentMarkObject;
-}
+  // Reset Finction For Submit Button
+  function resetSubmit(parentDiv) {
+    parentDiv.children[1].innerHTML = "";
+    parentDiv.children[2].value = "";
+    parentDiv.children[2].style.border = "1px solid black";
+    markContainer.style.display = "none";
+    let list = parentDiv.children[3];
+    while (list.hasChildNodes()) {
+      list.removeChild(list.firstChild);
+    }
+  }
+  // Validation Function For popUp 
+  function validateDiv() {
+    let isValidateDiv = true;
+    if (displayUserSemester.value === "") {
+      displayUserSemester.style.border = "2px solid red";
+      isValidateDiv = false;
+    }
+    else {
+      displayUserSemester.style.border = "2px solid green";
+    }
+    let selectedDiv = displayMainDiv.children;
+    for (i = 0; i < selectedDiv.length; i++) {
+      for (j = 0; j < selectedDiv[i].children.length - 2; j++) {
+        if (selectedDiv[i].children[j].value === "") {
+          selectedDiv[i].children[j].style.border = "2px solid red";
+          isValidateDiv = false;
+        }
+        else {
+          selectedDiv[i].children[j].style.border = "2px solid green";
+        }
+      }
+    }
+    return isValidateDiv;
+  }
+  // Student Dynamic Created Detail by clicking Submit button on popUp 
+  function dynamicMark() {
+    let divMarkDetail = document.createElement("div");
+    let paraMarkDetail = document.createElement("p");
+    let paraSemesterMarkDetail = document.createElement("p");
+    let divSubjectMarkContainer = document.createElement("div");
+    let EditButton = document.createElement("button");
+    EditButton.innerText = "Edit";
+    EditButton.classList.add("btn", "btn-sm", "btn-primary", "my-2");
+    EditButton.addEventListener("click", function () {
+      markContainer.style.display = "flex";
+      let parentPlacingDiv = EditButton.parentNode;
+      parentPlacingDiv.style.backgroundColor = "pink";
+      dynamicDivFormation(true, parentPlacingDiv);
+      let parentElement = displayMainDiv.children[0].children[3];
+      parentElement.disabled = true;
+    });
+    let studentMarkObject = {};
+    studentMarkObject = editValue();
+    paraMarkDetail.innerHTML = studentMarkObject.studentName;/*Now giving values from Object to the Edit Button Values*/
+    paraSemesterMarkDetail.innerHTML = studentMarkObject.studentSemester;/*Now giving values from Object to the Edit Button Values*/
+    loopSelected(studentMarkObject.subjectMarks, divSubjectMarkContainer);
+    divMarkDetail.appendChild(paraMarkDetail);
+    divMarkDetail.appendChild(paraSemesterMarkDetail);
+    divMarkDetail.appendChild(divSubjectMarkContainer);
+    divMarkDetail.appendChild(EditButton);
+    studentMarkDetail.appendChild(divMarkDetail);
+  }
+  // Function for Pop After Edit Button Click of Student Mark// 
+  function loopSelected(marks, divSubjectMarkContainer) {
+    marks.forEach(function (objMark, index) {
+      let subjectMarkDiv = document.createElement("div");
+      let subjectMarkDetail = document.createElement("span");
+      let paraSubjectMarkDetail = document.createElement("span");
+      subjectMarkDetail.innerText = objMark.subject;
+      paraSubjectMarkDetail.innerText = objMark.mark;
+      subjectMarkDiv.appendChild(subjectMarkDetail);
+      subjectMarkDiv.appendChild(paraSubjectMarkDetail);
+      divSubjectMarkContainer.appendChild(subjectMarkDiv);
+    });
+  }
+  function editValue() {
+    let studentMarkObject = {}; /*We Created An Object*/
+    studentMarkObject.studentName = displayUserName.innerText;/*First We append Student Name Value*/
+    studentMarkObject.studentSemester = displayUserSemester.value;/*second We append Student Semester Value*/
+    studentMarkObject.subjectMarks = [];/*Third We append an Array values of Student Subject & Marks */
+    let studentMarkSummary = document.getElementById("displayMainDiv").querySelectorAll(".displayDynamic");/*Extracting all Div Which having values of Subject & Mark*/
+    let markArray = Array.from(studentMarkSummary);/*Converting the elements to Form Array*/
+    markArray.forEach(function (mark, index) {/*Looping to Each value of Array then*/
+      let selectValue = mark.querySelector(".displaySubject").value;/*Giving Value of Subject from input tag*/
+      let markInputValue = mark.querySelector(".displaySubjectMarks").value;/*Giving Value of Mark from input tag*/
+      let studentMark = {};/*Again creating an Object again with inner values */
+      studentMark.subject = selectValue;/*Giving Value of Subject and append in student object*/
+      studentMark.mark = markInputValue;/*Giving Value of Mark and append in student object*/
+      studentMarkObject.subjectMarks.push(studentMark);/*Pushing this object to array*/
+    });
+    return studentMarkObject;
+  }
 }
